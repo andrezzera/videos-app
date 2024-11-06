@@ -13,9 +13,15 @@ export const StackRouter = () => {
       initialRouteName="Home"
       screenOptions={{
         header: NavigationHeader,
-        presentation: "modal",
+        presentation: "transparentModal",
       }}>
-      <Stack.Screen name="Home" children={HomeScreen} />
+      <Stack.Screen
+        name="Home"
+        children={HomeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen name="Video" children={VideoScreen} />
     </Stack.Navigator>
   );
