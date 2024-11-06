@@ -1,6 +1,6 @@
 import React from "react";
 import * as S from "./styles";
-import { IVideo } from "../../view";
+import { IVideo } from "@/shared/types";
 
 interface VideoProps extends Pick<IVideo, "title" | "category" | "thumbnail"> {}
 

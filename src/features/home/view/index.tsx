@@ -3,23 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import * as S from "./styles";
 import Video from "../components/video";
-import Separator from "../components/separator";
-
-export interface IVideo {
-  id: string;
-  title: string;
-  category: number;
-  hls_path: string;
-  description: string;
-  thumbnail: string;
-  views: number;
-  likes: number;
-}
-
-export interface ICategory {
-  id: string;
-  title: string;
-}
+import { IVideo } from "@/shared/types";
 
 export const HomeView = () => {
   const httpService = axios.create({ baseURL: "http://192.168.3.105:3000" });
@@ -42,7 +26,7 @@ export const HomeView = () => {
     }
   };
 
-  const [videos, setVideos] = useState<Array<IVideo>>([]);
+  const [videos, setVideos] = useState<IVideo[]>([]);
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(true);
 
@@ -56,14 +40,10 @@ export const HomeView = () => {
         <FlatList
           data={videos}
           renderItem={({ item }) => (
-            <Video
-              category={item.category}
-              title={item.title}
-              thumbnail={item.thumbnail}
-            />
+            <Video category={item.category} title={item.title} thumbnail={item.thumbnail} />
           )}
+          contentContainerStyle={{ gap: 16 }}
           keyExtractor={(item) => item.id}
-          ItemSeparatorComponent={() => <Separator />}
           onEndReached={() => fetchVideos()}
           onEndReachedThreshold={0.2}
         />

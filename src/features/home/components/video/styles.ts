@@ -4,6 +4,9 @@ export const Container = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   gap: 16px;
+  background: ${({ theme }) => theme.colors.dark[800]};
+  padding: 8px;
+  border-radius: 3px;
 `;
 
 export const Thumbnail = styled.Image`
@@ -22,9 +25,11 @@ export const Category = styled.Text`
   font-weight: 100;
   border-radius: 3px;
   text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const Title = styled.Text`
   font-size: 15px;
   font-weight: bold;
+  color: ${({ theme }) => theme.colors.white};
 `;
