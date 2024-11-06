@@ -11,6 +11,8 @@ import {
 } from "@expo-google-fonts/space-grotesk";
 import { theme } from "@/shared/styles/theme";
 import { StackRouter } from "@/shared/router";
+import Layout from "@/shared/components/layout";
+import { View } from "react-native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,10 +28,14 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <StackRouter />
-      </NavigationContainer>
-    </ThemeProvider>
+    <View style={{ backgroundColor: "red", flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <Layout>
+            <StackRouter />
+          </Layout>
+        </NavigationContainer>
+      </ThemeProvider>
+    </View>
   );
 }
