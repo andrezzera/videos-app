@@ -46,15 +46,15 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
       await patchVideo({
         id: video.id,
         video: {
-          likes: video.likes + 1,
+          likes: isLiked ? video.likes - 1 : video.likes + 1,
         },
       });
-      setVideo({ ...video, likes: video.likes + 1 });
-      setIsLiked(true);
+      setVideo({ ...video, likes: isLiked ? video.likes - 1 : video.likes + 1 });
+      setIsLiked(!isLiked);
     } catch (e) {
       console.error("Erro ao incrementar a quantidade de curtidas", e);
     }
-  }, [video]);
+  }, [isLiked, video]);
 
   useEffect(() => {
     video.id && incrementViews();
