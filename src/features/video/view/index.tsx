@@ -37,7 +37,7 @@ export const VideoView = ({ navigation, route }: RootScreenProps<"Video">) => {
         </S.LikeButton>
       </S.VideoInfo>
       <S.Title>{video.title}</S.Title>
-      <S.Description>{video.description}</S.Description>
+      {video.description && <S.Description>{video.description}</S.Description>}
     </S.Container>
   );
 };
