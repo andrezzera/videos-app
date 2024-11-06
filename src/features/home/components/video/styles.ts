@@ -21,15 +21,15 @@ export const Details = styled.View`
 `;
 
 export const Category = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.light};
   font-size: 11px;
-  font-weight: 100;
   border-radius: 3px;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.white};
 `;
 
 export const Title = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
   font-size: 15px;
-  font-weight: bold;
   color: ${({ theme }) => theme.colors.white};
 `;
