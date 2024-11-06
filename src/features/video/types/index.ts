@@ -15,3 +15,8 @@ export interface GetVideoParams {
 export interface FetchVideoParams {
   id: string;
 }
+
+export interface PatchVideoParams {
+  id: string;
+  video: Partial<Pick<IVideo, "likes" | "views">>;
+}

@@ -1,5 +1,5 @@
-import { PropsWithChildren, useState } from "react";
-import { getVideo } from "../services/video.service";
+import { PropsWithChildren, useCallback, useEffect, useState } from "react";
+import { getVideo, patchVideo } from "../services/video.service";
 import { IVideo } from "@/shared/types";
 import { VideoContext } from "../context/video.context";
 import { FetchVideoParams } from "../types";
@@ -17,7 +17,7 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
     };
   };
 
-  const fetchVideo = async ({ id }: FetchVideoParams) => {
+  const fetchVideo = useCallback(async ({ id }: FetchVideoParams) => {
     try {
       const response = await getVideo({ id });
       const responseData = response.data;
@@ -25,7 +25,24 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
     } catch (e) {
       console.error("Erro ao buscar video", e);
     }
-  };
+  }, []);
+
+  const incrementViews = useCallback(async () => {
+    try {
+      await patchVideo({
+        id: video.id,
+        video: {
+          views: video.views + 1,
+        },
+      });
+    } catch (e) {
+      console.error("Erro ao incrementar a quantidade de visualizações", e);
+    }
+  }, [video]);
+
+  useEffect(() => {
+    video.id && incrementViews();
+  }, [video, incrementViews]);
 
   return (
     <VideoContext.Provider value={{ video, fetchVideo, videoSize }}>

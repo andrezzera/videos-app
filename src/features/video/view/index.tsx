@@ -11,7 +11,7 @@ export const VideoView = ({ route }: RootScreenProps<"Video">) => {
 
   useEffect(() => {
     fetchVideo({ id: route.params.id });
-  }, []);
+  }, [fetchVideo, route.params.id]);
 
   return (
     <S.Container>
