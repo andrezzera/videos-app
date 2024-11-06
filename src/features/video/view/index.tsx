@@ -6,29 +6,13 @@ import { Video, ResizeMode } from "expo-av";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { IVideo } from "@/shared/types";
 import { RootScreenProps } from "@/shared/router/types";
+import { useVideo } from "../hooks/video.hook";
 
 export const VideoView = ({ navigation, route }: RootScreenProps<"Video">) => {
-  const httpService = axios.create({ baseURL: "http://192.168.3.105:3000" });
-
-  const getVideo = (id: string) => {
-    return httpService.get(`/videos/${id}`);
-  };
-
-  const fetchVideo = async () => {
-    try {
-      const response = await getVideo(route.params.id);
-
-      const data = response.data;
-      setVideo(data);
-    } catch (e) {
-      console.log("erro ao buscar videos", e);
-    }
-  };
-
-  const [video, setVideo] = useState<IVideo>({} as IVideo);
+  const { fetchVideo, video } = useVideo();
 
   useEffect(() => {
-    fetchVideo();
+    fetchVideo({ id: route.params.id });
   }, []);
 
   const videoWidth = Dimensions.get("window").width - 32;
