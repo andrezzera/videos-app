@@ -1,12 +1,13 @@
 import React from "react";
 import * as S from "./styles";
-import { IVideo } from "@/shared/types";
+import { useNavigation } from "@react-navigation/native";
+import { VideoProps } from "./types";
 
-interface VideoProps extends Pick<IVideo, "title" | "category" | "thumbnail"> {}
+const Video = ({ id, title, thumbnail, category }: VideoProps) => {
+  const navigation = useNavigation();
 
-const Video = ({ title, thumbnail, category }: VideoProps) => {
   return (
-    <S.Container>
+    <S.Container onPress={() => navigation.navigate("Video", { id })}>
       <S.Thumbnail src={thumbnail} />
       <S.Details>
         <S.Category>{category}</S.Category>

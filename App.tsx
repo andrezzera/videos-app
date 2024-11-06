@@ -1,6 +1,6 @@
+import "./gesture-handler";
 import { ThemeProvider } from "styled-components/native";
-import { HomeScreen } from "./src/features/home";
-import { VideoScreen } from "./src/features/video";
+import { NavigationContainer } from "@react-navigation/native";
 import {
   SpaceGrotesk_300Light,
   SpaceGrotesk_400Regular,
@@ -10,6 +10,7 @@ import {
   useFonts,
 } from "@expo-google-fonts/space-grotesk";
 import { theme } from "@/shared/styles/theme";
+import { StackRouter } from "@/shared/router";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,7 +27,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <HomeScreen />
+      <NavigationContainer>
+        <StackRouter />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }

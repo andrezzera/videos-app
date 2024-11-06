@@ -40,7 +40,12 @@ export const HomeView = () => {
         <FlatList
           data={videos}
           renderItem={({ item }) => (
-            <Video category={item.category} title={item.title} thumbnail={item.thumbnail} />
+            <Video
+              id={item.id}
+              category={item.category}
+              title={item.title}
+              thumbnail={item.thumbnail}
+            />
           )}
           contentContainerStyle={{ gap: 16 }}
           keyExtractor={(item) => item.id}

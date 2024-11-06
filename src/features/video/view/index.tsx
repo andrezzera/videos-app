@@ -5,17 +5,18 @@ import * as S from "./styles";
 import { Video, ResizeMode } from "expo-av";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { IVideo } from "@/shared/types";
+import { RootScreenProps } from "@/shared/router/types";
 
-export const VideoView = () => {
+export const VideoView = ({ navigation, route }: RootScreenProps<"Video">) => {
   const httpService = axios.create({ baseURL: "http://192.168.3.105:3000" });
 
-  const getVideo = (id: number) => {
+  const getVideo = (id: string) => {
     return httpService.get(`/videos/${id}`);
   };
 
   const fetchVideo = async () => {
     try {
-      const response = await getVideo(90562);
+      const response = await getVideo(route.params.id);
 
       const data = response.data;
       setVideo(data);
