@@ -1,22 +1,17 @@
-import { Dimensions } from "react-native";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as S from "./styles";
 import { Video, ResizeMode } from "expo-av";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IVideo } from "@/shared/types";
 import { RootScreenProps } from "@/shared/router/types";
 import { useVideo } from "../hooks/video.hook";
 
-export const VideoView = ({ navigation, route }: RootScreenProps<"Video">) => {
-  const { fetchVideo, video } = useVideo();
+export const VideoView = ({ route }: RootScreenProps<"Video">) => {
+  const { fetchVideo, video, videoSize } = useVideo();
+  const { width, height } = videoSize();
 
   useEffect(() => {
     fetchVideo({ id: route.params.id });
   }, []);
-
-  const videoWidth = Dimensions.get("window").width - 32;
-  const videoHeight = (videoWidth / 16) * 9;
 
   return (
     <S.Container>
@@ -27,7 +22,7 @@ export const VideoView = ({ navigation, route }: RootScreenProps<"Video">) => {
         }}
         useNativeControls
         resizeMode={ResizeMode.CONTAIN}
-        style={{ width: videoWidth, height: videoHeight }}
+        style={{ width, height }}
       />
       <S.VideoInfo>
         <S.Views>{video.views} visualizações</S.Views>

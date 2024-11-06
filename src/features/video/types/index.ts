@@ -3,6 +3,7 @@ import { IVideo } from "@/shared/types";
 export interface VideoContextProps {
   video: IVideo;
   fetchVideo: (params: FetchVideoParams) => Promise<void>;
+  videoSize: () => { width: number; height: number };
 }
 
 export interface GetVideoResponse extends IVideo {}
