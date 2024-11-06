@@ -4,6 +4,8 @@ export interface VideoContextProps {
   video: IVideo;
   fetchVideo: (params: FetchVideoParams) => Promise<void>;
   videoSize: () => { width: number; height: number };
+  isLiked: boolean;
+  likeVideo: () => Promise<void>;
 }
 
 export interface GetVideoResponse extends IVideo {}

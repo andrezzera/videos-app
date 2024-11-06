@@ -7,6 +7,7 @@ import { Dimensions } from "react-native";
 
 export const VideoProvider = ({ children }: PropsWithChildren) => {
   const [video, setVideo] = useState<IVideo>({} as IVideo);
+  const [isLiked, setIsLiked] = useState(false);
 
   const videoSize = () => {
     const width = Dimensions.get("window").width - 32;
@@ -40,12 +41,27 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
     }
   }, [video]);
 
+  const likeVideo = useCallback(async () => {
+    try {
+      await patchVideo({
+        id: video.id,
+        video: {
+          likes: video.likes + 1,
+        },
+      });
+      setVideo({ ...video, likes: video.likes + 1 });
+      setIsLiked(true);
+    } catch (e) {
+      console.error("Erro ao incrementar a quantidade de curtidas", e);
+    }
+  }, [video]);
+
   useEffect(() => {
     video.id && incrementViews();
   }, [video, incrementViews]);
 
   return (
-    <VideoContext.Provider value={{ video, fetchVideo, videoSize }}>
+    <VideoContext.Provider value={{ video, fetchVideo, videoSize, isLiked, likeVideo }}>
       {children}
     </VideoContext.Provider>
   );
