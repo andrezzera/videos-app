@@ -32,7 +32,12 @@ export const VideoView = ({ route }: RootScreenProps<"Video">) => {
           />
           <S.VideoInfo>
             <S.Views>{video.views} visualizações</S.Views>
-            <LikeButton isLiked={isLiked} likes={video.likes} onPress={() => likeVideo()} />
+            <LikeButton
+              testID="like-button"
+              isLiked={isLiked}
+              likes={video.likes}
+              onPress={() => likeVideo()}
+            />
           </S.VideoInfo>
           <S.Title>{video.title}</S.Title>
           {video.description && <S.Description>{video.description}</S.Description>}
