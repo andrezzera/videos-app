@@ -1,6 +1,6 @@
 import React from "react";
 import * as S from "./styles";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 
 const NavigationHeader = () => {
@@ -10,7 +10,7 @@ const NavigationHeader = () => {
     <S.Container>
       {navigation.canGoBack() && (
         <S.BackButton onPress={() => navigation.goBack()}>
-          <FontAwesome name="angle-left" size={24} color="white" />
+          <AntDesign name="arrowleft" size={24} color="white" />
         </S.BackButton>
       )}
     </S.Container>
