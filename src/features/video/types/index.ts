@@ -6,6 +6,7 @@ export interface VideoContextProps {
   videoSize: () => { width: number; height: number };
   isLiked: boolean;
   likeVideo: () => Promise<void>;
+  isLoading: boolean;
 }
 
 export interface GetVideoResponse extends IVideo {}

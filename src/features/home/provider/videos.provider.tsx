@@ -28,6 +28,8 @@ export const VideosProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <VideosContext.Provider value={{ videos, fetchVideos }}>{children}</VideosContext.Provider>
+    <VideosContext.Provider value={{ videos, fetchVideos, hasNextPage }}>
+      {children}
+    </VideosContext.Provider>
   );
 };

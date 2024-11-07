@@ -8,6 +8,7 @@ import { Dimensions } from "react-native";
 export const VideoProvider = ({ children }: PropsWithChildren) => {
   const [video, setVideo] = useState<IVideo>({} as IVideo);
   const [isLiked, setIsLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const videoSize = () => {
     const width = Dimensions.get("window").width - 32;
@@ -20,11 +21,14 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
 
   const fetchVideo = useCallback(async ({ id }: FetchVideoParams) => {
     try {
+      setIsLoading(true);
       const response = await getVideo({ id });
       const responseData = response.data;
       setVideo(responseData);
     } catch (e) {
       console.error("Erro ao buscar video", e);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -61,7 +65,7 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
   }, [video, incrementViews]);
 
   return (
-    <VideoContext.Provider value={{ video, fetchVideo, videoSize, isLiked, likeVideo }}>
+    <VideoContext.Provider value={{ video, fetchVideo, videoSize, isLiked, likeVideo, isLoading }}>
       {children}
     </VideoContext.Provider>
   );
