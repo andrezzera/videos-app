@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { INITIAL_PAGE } from "../constants";
 import { getVideos } from "../services/videos.service";
 import { IVideo } from "@/shared/types";
@@ -22,10 +22,6 @@ export const VideosProvider = ({ children }: PropsWithChildren) => {
       console.error("Erro ao buscar videos", e);
     }
   };
-
-  useEffect(() => {
-    fetchVideos();
-  }, []);
 
   return (
     <VideosContext.Provider value={{ videos, fetchVideos, hasNextPage }}>
