@@ -38,8 +38,8 @@ export const HomeView = () => {
           )}
           contentContainerStyle={{ gap: 16 }}
           keyExtractor={(item) => item.id}
-          onEndReached={() => fetchVideos()}
-          onEndReachedThreshold={0.2}
+          onEndReached={() => videos.length > 0 && fetchVideos()}
+          onEndReachedThreshold={0.1}
           ListFooterComponent={() => (hasNextPage ? <VideoSkeleton /> : null)}
         />
       )}

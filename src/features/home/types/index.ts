@@ -17,7 +17,7 @@ export interface GetVideosParams {
 
 export interface CategoriesContextProps {
   categories: ICategory[];
-  translateCategory: (id: number) => string;
+  translateCategory: (id: string) => string;
 }
 
 export type GetCategoriesResponse = ICategory[];

@@ -12,7 +12,7 @@ const Video = ({ id, title, thumbnail, category }: VideoProps) => {
     <S.Container onPress={() => navigation.navigate("Video", { id })}>
       <S.Thumbnail src={thumbnail} />
       <S.Details>
-        <S.Category>{translateCategory(category)}</S.Category>
+        <S.Category>{translateCategory(category?.toString())}</S.Category>
         <S.Title>{title}</S.Title>
       </S.Details>
     </S.Container>

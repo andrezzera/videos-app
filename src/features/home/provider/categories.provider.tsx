@@ -18,7 +18,7 @@ export const CategoriesProvider = ({ children }: PropsWithChildren) => {
 
   const translateCategory = (id: string) => {
     const category = categories.filter((category) => category.id == id);
-    return category[0].title;
+    return category[0]?.title;
   };
 
   useEffect(() => {
