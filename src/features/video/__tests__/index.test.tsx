@@ -1,6 +1,6 @@
 import "react-native-gesture-handler/jestSetup";
 import React, { PropsWithChildren } from "react";
-import { act, fireEvent, render } from "@testing-library/react-native";
+import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { VideoScreen } from "..";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "@/shared/styles/theme";
@@ -29,6 +29,8 @@ const mockedRouteParams = {
   },
 };
 
+const mockedNavigation = { navigate: jest.fn() };
+
 const Providers = ({ children }: PropsWithChildren) => {
   return (
     <ThemeProvider theme={theme}>
@@ -40,8 +42,6 @@ const Providers = ({ children }: PropsWithChildren) => {
 };
 
 describe("Given VideoScreen", () => {
-  const navigation = { navigate: jest.fn() };
-
   beforeEach(async () => {
     jest.spyOn(videoService, "getVideo").mockImplementation(
       () =>
@@ -61,27 +61,27 @@ describe("Given VideoScreen", () => {
     test("Then get videos service should be called", async () => {
       render(
         <Providers>
-          <VideoScreen navigation={navigation as any} route={mockedRouteParams as any} />
+          <VideoScreen navigation={mockedNavigation as any} route={mockedRouteParams as any} />
         </Providers>,
       );
-      await act(async () => {
-        await Promise.resolve();
+
+      await waitFor(() => {
+        expect(videoService.getVideo).toHaveBeenCalledWith({ id: mockedRouteParams.params.id });
       });
-      expect(videoService.getVideo).toHaveBeenCalledWith({ id: mockedRouteParams.params.id });
     });
 
     test("Then should increase video views", async () => {
       render(
         <Providers>
-          <VideoScreen navigation={navigation as any} route={mockedRouteParams as any} />
+          <VideoScreen navigation={mockedNavigation as any} route={mockedRouteParams as any} />
         </Providers>,
       );
-      await act(async () => {
-        await Promise.resolve();
-      });
-      expect(videoService.patchVideo).toHaveBeenCalledWith({
-        id: mockedRouteParams.params.id,
-        video: { views: mockedVideo.views + 1 },
+
+      await waitFor(() => {
+        expect(videoService.patchVideo).toHaveBeenCalledWith({
+          id: mockedRouteParams.params.id,
+          video: { views: mockedVideo.views + 1 },
+        });
       });
     });
   });
@@ -90,21 +90,49 @@ describe("Given VideoScreen", () => {
     test("Then should increase video likes count", async () => {
       const { getByTestId } = render(
         <Providers>
-          <VideoScreen navigation={navigation as any} route={mockedRouteParams as any} />
+          <VideoScreen navigation={mockedNavigation as any} route={mockedRouteParams as any} />
         </Providers>,
       );
 
-      await act(async () => {
-        await Promise.resolve();
-      });
-      await act(async () => {
-        const LikeButton = getByTestId("like-button");
-        fireEvent.press(LikeButton);
+      await waitFor(async () => {
+        await act(async () => {
+          const LikeButton = getByTestId("like-button");
+          fireEvent.press(LikeButton);
+        });
       });
 
       expect(videoService.patchVideo).toHaveBeenCalledWith({
         id: mockedRouteParams.params.id,
         video: { likes: mockedVideo.likes + 1 },
+      });
+    });
+  });
+
+  describe("When like button is clicked a second time", () => {
+    test("Then should decrease video likes count", async () => {
+      const { getByTestId } = render(
+        <Providers>
+          <VideoScreen navigation={mockedNavigation as any} route={mockedRouteParams as any} />
+        </Providers>,
+      );
+
+      await waitFor(async () => {
+        await act(async () => {
+          const LikeButton = getByTestId("like-button");
+          fireEvent.press(LikeButton);
+        });
+
+        await waitFor(async () => {
+          await act(async () => {
+            const LikeButton = getByTestId("like-button");
+            fireEvent.press(LikeButton);
+          });
+        });
+      });
+
+      expect(videoService.patchVideo).toHaveBeenLastCalledWith({
+        id: mockedRouteParams.params.id,
+        video: { likes: mockedVideo.likes },
       });
     });
   });
