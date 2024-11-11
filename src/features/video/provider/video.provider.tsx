@@ -9,6 +9,7 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
   const [video, setVideo] = useState<IVideo>({} as IVideo);
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isViewed, setIsViewed] = useState(false);
 
   const videoSize = () => {
     const width = Dimensions.get("window").width - 32;
@@ -40,6 +41,7 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
           views: video.views + 1,
         },
       });
+      setIsViewed(true);
     } catch (e) {
       console.error("Erro ao incrementar a quantidade de visualizações", e);
     }
@@ -61,8 +63,8 @@ export const VideoProvider = ({ children }: PropsWithChildren) => {
   }, [isLiked, video]);
 
   useEffect(() => {
-    video.id && incrementViews();
-  }, [video, incrementViews]);
+    !isViewed && video.id && incrementViews();
+  }, [video, incrementViews, isViewed]);
 
   return (
     <VideoContext.Provider value={{ video, fetchVideo, videoSize, isLiked, likeVideo, isLoading }}>
